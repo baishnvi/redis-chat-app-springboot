@@ -84,3 +84,13 @@ Design: layered architecture, repositories/broadcaster behind interfaces (easy t
 
 ## Deploy (needed for submission)
 Render / Railway / Fly.io: deploy this repo with the included `Dockerfile` and attach a managed Redis (e.g. Upstash, Redis Cloud, Railway Redis). Set `SPRING_DATA_REDIS_URL` (use `rediss://` for TLS). Live Swagger will be at `<your-url>/swagger-ui.html`.
+
+## Live Demo 
+<img width="1366" height="768" alt="Screenshot (508)" src="https://github.com/user-attachments/assets/708fe58e-25f8-4378-8d1a-bee8cfe09f42" />
+
+<img width="1366" height="768" alt="Screenshot (509)" src="https://github.com/user-attachments/assets/643d79b6-b3e9-4151-bc61-7056b3118f83" />
+
+<img width="1366" height="768" alt="Screenshot (510)" src="https://github.com/user-attachments/assets/1a9ed964-96e2-4cf0-aa45-44b7b72b710a" />
+
+
+

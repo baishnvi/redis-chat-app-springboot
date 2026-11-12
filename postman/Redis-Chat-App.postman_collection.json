@@ -1,0 +1,290 @@
+{
+  "info": {
+    "name": "Redis Chat App",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Create room 'general'",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"roomName\": \"general\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2. Create duplicate room (expect 409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"roomName\": \"general\"\n}"
+        }
+      }
+    },
+    {
+      "name": "3. Join room as guest_user",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/join"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"guest_user\"\n}"
+        }
+      }
+    },
+    {
+      "name": "4. Join room as another_user",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/join"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"another_user\"\n}"
+        }
+      }
+    },
+    {
+      "name": "5. Join non-existent room (expect 404)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/ghost/join"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"guest_user\"\n}"
+        }
+      }
+    },
+    {
+      "name": "6. Send message (guest_user)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/messages"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"guest_user\",\n  \"message\": \"Hello, everyone!\"\n}"
+        }
+      }
+    },
+    {
+      "name": "7. Send message (another_user)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/messages"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"another_user\",\n  \"message\": \"Hi, guest_user!\"\n}"
+        }
+      }
+    },
+    {
+      "name": "8. Send to non-existent room (expect 404)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/ghost/messages"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"guest_user\",\n  \"message\": \"hi\"\n}"
+        }
+      }
+    },
+    {
+      "name": "9. Send without joining (expect 403)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/messages"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"participant\": \"stranger\",\n  \"message\": \"hi\"\n}"
+        }
+      }
+    },
+    {
+      "name": "10. Get last 10 messages",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/messages?limit=10"
+        }
+      }
+    },
+    {
+      "name": "11. Get last 1 message",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/messages?limit=1"
+        }
+      }
+    },
+    {
+      "name": "12. Invalid limit (expect 400)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/messages?limit=0"
+        }
+      }
+    },
+    {
+      "name": "13. List rooms",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms"
+        }
+      }
+    },
+    {
+      "name": "14. Room details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general"
+        }
+      }
+    },
+    {
+      "name": "15. Live stream (SSE) - open in browser/curl -N",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general/stream"
+        }
+      }
+    },
+    {
+      "name": "16. Delete room",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/chatapp/chatrooms/general"
+        }
+      }
+    }
+  ]
+}
